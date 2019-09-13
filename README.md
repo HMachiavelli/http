@@ -116,7 +116,7 @@ $response->get('data.name'); // Astron
 ```php
 use \Astronphp\Http\Request;
 
-$request = new Request('www.example.com/api');
+$request = new Request();
 ```
 
 #### 2.2 Acessando dados
