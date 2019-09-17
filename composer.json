@@ -3,10 +3,11 @@
     "description": "http request and response solutions",
     "type": "library",
     "require": {
-        "cajudev/collection": "^2"
+        "php":"^7.1",
+        "astronphp/collection": "^0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6"
+        "phpunit/phpunit": "^7"
     },
     "license": "MIT",
     "authors": [

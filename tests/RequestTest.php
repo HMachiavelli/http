@@ -2,7 +2,7 @@
 
 use Astronphp\Http\Request;
 use Astronphp\Http\Response;
-use Cajudev\Collection;
+use Astronphp\Collection\Collection;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase {

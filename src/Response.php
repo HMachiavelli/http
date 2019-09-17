@@ -83,7 +83,7 @@ class Response {
 
     public function setData(string $data = null) {
         $data = (array) json_decode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        $this->data = new \Cajudev\Collection($data);
+        $this->data = new \Astronphp\Collection\Collection($data);
     }
 
     public function setInfo(array $info) {

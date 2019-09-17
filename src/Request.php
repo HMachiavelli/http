@@ -4,7 +4,7 @@ namespace Astronphp\Http;
 
 use Astronphp\Http\Sanitizer;
 use Astronphp\Http\Header;
-use Cajudev\Collection;
+use Astronphp\Collection\Collection;
 
 class Request {
     

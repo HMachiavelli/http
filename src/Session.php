@@ -3,7 +3,7 @@
 namespace Astronphp\Http;
 
 use Astronphp\Http\Interfaces\Singleton;
-use Cajudev\Collection;
+use Astronphp\Collection\Collection;
 
 class Session implements Singleton {
     protected static $instance;

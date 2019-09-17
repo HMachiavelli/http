@@ -164,7 +164,7 @@ class Header {
     private $responseCode;
 
     public function __construct() {
-        $this->content = new \Cajudev\Collection();
+        $this->content = new \Astronphp\Collection\Collection();
     }
 
     public function set($key, $value) {
