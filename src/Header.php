@@ -177,9 +177,9 @@ class Header {
 
     public function toArray() {
         $return = [];
-        foreach ($this->content as $key => $value) {
+        $this->content->each(function($key, $value) use(&$return) {
             $return[] = "{$key}: {$value}";
-        }
+        });
         return $return;
     }
 
