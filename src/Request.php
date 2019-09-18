@@ -76,8 +76,11 @@ class Request {
     // =========================== MAKE HTTP REQUEST  ===========================
     // ==========================================================================
 
-    public function set(string $key, string $value) {
-        return $this->parameters[$key] = $value;
+    public function set($parameter, $value = null) {
+        if (is_array($parameter)) {
+            return $this->parameters = $parameter;
+        }
+        return $this->parameters[$parameter] = $value;
     }
 
     public function get(string $url, Header $header = null) {
