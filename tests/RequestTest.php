@@ -102,4 +102,10 @@ class RequestTest extends TestCase {
         $response = $this->request->get('/users');
         $this->assertEquals('https://reqres.in/api/users?page=1', $response->getUrl());
     }
+
+    public function test_Should_BuildUrl_When_MakingGetRequestWithArrayOfParameters() {
+        $this->request->set(['page' => 1, 'order' => 'asc']);
+        $response = $this->request->get('/users');
+        $this->assertEquals('https://reqres.in/api/users?page=1&order=asc', $response->getUrl());
+    }
 }
