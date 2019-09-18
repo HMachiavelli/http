@@ -80,8 +80,22 @@ $request->post('/users', $header, $body);
 $request->set('department', 'clothing');
 $request->set('sort', 'best_seller');
 
+// ou usando um array associativo
+// $request->set(['department' => 'clothing', 'sort' => 'best_seller']);
+
+// ambas produzirão a uri abaixo
 // www.example.com/api/products/clothing?sort=best_seller
+
 $request->get('/products/{department}');
+```
+
+Também pode fornecer um array associativo, o que produz o mesmo resultado que o exemplo anterior
+
+```php
+$request->set([
+	'department' => 'clothing',
+	'sort'       => 'best_seller'
+]);
 ```
 
 #### 1.6 Recebendo dados da resposta
