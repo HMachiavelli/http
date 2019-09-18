@@ -34,15 +34,27 @@ class Session implements Singleton {
         return static::$instance;
     }
     
-    public function dump($key = null) {
+    public function dump(string $key = null) {
         @var_dump($key ? $this->content->get($key) : $this->content);
     }
 
-    public function get($property) {
+    public function get(string $property) {
         return $this->content->get($property);
     }
 
-    public function set($property, $value) {
+    public function set(string $property, $value) {
         $this->content->set($property, $value);
+    }
+
+    public function isset(string $property): bool {
+        return $this->content->isset($property);
+    }
+
+    public function empty(string $property): bool {
+        return $this->content->empty($property);
+    }
+
+    public function unset(string $property) {
+        $this->content->unset($property);
     }
 }
