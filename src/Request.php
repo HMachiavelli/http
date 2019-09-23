@@ -118,7 +118,7 @@ class Request {
     }
 
     private function parseFields($fields) {
-        return is_string($fields) ? json_decode($fields) : $fields;
+        return is_string($fields) ? json_decode($fields, true) : $fields;
     }
     
     private function buildUrl(string $url) {
