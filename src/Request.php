@@ -111,14 +111,10 @@ class Request {
         return $this->setUrl($this->buildUrl($url))
             ->setCustomRequest($method)
             ->setHeader($header)
-            ->setFields($this->parseFields($fields))
+            ->setFields($fields)
             ->setDefaultOptions()
             ->send()
             ->getResponse();
-    }
-
-    private function parseFields($fields) {
-        return is_string($fields) ? json_decode($fields, true) : $fields;
     }
     
     private function buildUrl(string $url) {
@@ -182,7 +178,7 @@ class Request {
         return $this;
     }
 
-    public function setFields(array $fields = null): self {
+    public function setFields($fields = null): self {
         $this->options[CURLOPT_POSTFIELDS] = $fields;
         return $this;
     }
