@@ -135,3 +135,25 @@ $request->files('picture');
 $request->server('request_uri'); // case insensitive
 $request->header('content_type'); // case insentitive
 ```
+
+### 3. Navegação entre páginas
+
+#### 3.1 Configurando uma URI base
+
+```php
+	\Astronphp\Http\Location::setBaseUri('https://www.example.com');
+```
+
+#### 3.2 Redirecionando
+
+```php
+	$location = new \Astronphp\Http\Location('/products');
+	$location->redirect(); // redireciona para https://www.example.com/products
+```
+
+#### 3.3 Recarregando a página
+
+```php
+	$location = new \Astronphp\Http\Location();
+	$location->reload();
+```
