@@ -6,7 +6,7 @@ class Location {
     private static $baseUri;
     private $uri;
 
-    public function __construct(string $uri) {
+    public function __construct(string $uri = '') {
         $this->uri = trim($uri, '/');
     }
 
@@ -18,6 +18,21 @@ class Location {
         return self::$baseUri;
     }
 
+    public function redirect() {
+        header("Location: {$this->buildUri()}"); exit;
+    }
+
+    public function reload() {
+        header('Location: 0'); exit;
+    }
+
+    public function buildUri(): string {
+        if ($this->isAbsolute()) {
+            return $this->uri;
+        }
+        return self::$baseUri . '/' . $this->uri;
+    }
+
     public function isAbsolute(): bool {
         return preg_match('/^(?:[a-z]+:)?\/\//i', $this->uri);
     }
@@ -26,18 +41,7 @@ class Location {
         return !$this->isAbsolute();
     }
 
-    public function buildUri(): string {
-        return self::$baseUri . '/' . $this->uri;
-    }
-
-    public function toString(): string {
-        if ($this->isAbsolute()) {
-            return $this->uri;
-        }
-        return $this->buildUri();
-    }
-
     public function __toString() {
-        return $this->toString();
+        return $this->buildUri();
     }
 }

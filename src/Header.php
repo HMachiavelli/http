@@ -161,7 +161,6 @@ class Header {
     const X_DNS_PREFETCH_CONTROL = 'X-DNS-Prefetch-Control';
 
     private $content;
-    private $responseCode;
 
     public function __construct() {
         $this->content = new \Astronphp\Collection\Collection();
@@ -181,23 +180,6 @@ class Header {
             $return[] = "{$key}: {$value}";
         });
         return $return;
-    }
-
-    public function redirect(string $location = '') {
-        $location = new Location($location);
-        header('Location: ' . $location, true, $this->responseCode); exit;
-    }
-
-    public function reload() {
-        header('Refresh: 0'); exit;
-    }
-
-    public function responseCode($responseCode = null) {
-        if ($responseCode === null) {
-            return $this->responseCode;
-        }
-        $this->responseCode = $responseCode;
-        return $this;
     }
 
     public function dump($key = null) {
