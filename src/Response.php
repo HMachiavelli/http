@@ -85,7 +85,7 @@ class Response {
         if (is_string($data)) {
             $data = (array) json_decode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
-        $this->data = new \Astronphp\Collection\Collection($data);
+        $this->data = new \Astronphp\Collection\Collection((array) $data);
     }
 
     public function setInfo(array $info) {
