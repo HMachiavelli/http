@@ -68,21 +68,23 @@ class Response {
     private $data;
     private $info;
 
-    public function __construct(string $data = null, array $info = []) {
+    public function __construct($data = [], array $info = []) {
         $this->setData($data);
         $this->setInfo($info);
     }
 
     public function json() {
-        echo $this->data; exit;
+        echo $this->data->toJson(); exit;
     }
 
     public function get(string $key = null) {
         return $key ? $this->data->get($key) : $this->data;
     }
 
-    public function setData(string $data = null) {
-        $data = (array) json_decode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    public function setData($data = []) {
+        if (is_string($data)) {
+            $data = (array) json_decode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        }
         $this->data = new \Astronphp\Collection\Collection($data);
     }
 

@@ -136,22 +136,41 @@ $request->server('request_uri'); // case insensitive
 $request->header('content_type'); // case insentitive
 ```
 
-### 3. Navegação entre páginas
+### 3. Enviando uma resposta
 
-#### 3.1 Configurando uma URI base
+#### 3.1 Configuração Inicial
+
+```php
+use \Astronphp\Http\Response;
+
+$response = new Response(['status' => 'success', 'message' => 'lorem ipsum']);
+
+// ou como uma string json
+// $response = new Response({"status":"success", "message":"lorem ipsum"});
+```
+
+### 3.2 Enviando uma resposta JSON
+
+```php
+$response->json();
+```
+
+### 4. Navegação entre páginas
+
+#### 4.1 Configurando uma URI base
 
 ```php
 \Astronphp\Http\Location::setBaseUri('https://www.example.com');
 ```
 
-#### 3.2 Redirecionando
+#### 4.2 Redirecionando
 
 ```php
 $location = new \Astronphp\Http\Location('/products');
 $location->redirect(); // redireciona para https://www.example.com/products
 ```
 
-#### 3.3 Recarregando a página
+#### 4.3 Recarregando a página
 
 ```php
 $location = new \Astronphp\Http\Location();
