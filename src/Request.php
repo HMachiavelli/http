@@ -52,20 +52,20 @@ class Request {
     // ======================= RETRIEVE HTTP REQUEST DATA  ======================
     // ==========================================================================
 
-    public function query(string $key) {
-        return $this->query->get($key);
+    public function query(string $key = null) {
+        return $key === null ? $this->query : $this->query->get($key);
     }
 
-    public function body(string $key) {
-        return $this->body->get($key);
+    public function body(string $key = null) {
+        return $key === null ? $this->body : $this->body->get($key);
     }
 
-    public function files(string $key) {
-        return $this->files->get($key);
+    public function files(string $key = null) {
+        return $key === null ? $this->files : $this->files->get($key);
     }
 
-    public function server(string $key) {
-        return $this->server->get(strtoupper($key));
+    public function server(string $key = null) {
+        return $key === null ? $this->server : $this->server->get(strtoupper($key));
     }
 
     public function header(string $key) {
