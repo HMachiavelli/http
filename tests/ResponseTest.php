@@ -7,7 +7,8 @@ class ResponseTest extends TestCase {
     private $request;
 
     public function setUp() {
-        $this->response = new Response(null, [
+        $this->response = new Response();
+        $this->response->setInfo([
             'url'=> '10.0.0.0',
             'content_type'=> 'application/json',
             'http_code'=> '200',

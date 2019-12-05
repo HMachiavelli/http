@@ -50,27 +50,20 @@ $request->get('/users/1', $header);
 
 #### 1.4 Enviando um Corpo
 
-##### 1.4.1 Utilizando um array
-
 ```php
-$header = new Header();
-$header->add('Content-Type', 'application/x-www-form-urlencoded');
-//$header->add(Header::CONTENT_TYPE, Request::URL_ENCODED);
+use \Astronphp\Http\Header;
+use \Astronphp\Http\Body;
 
-// enviando o corpo como array
-$body = ['name' => 'Lorem Ipsum', 'document' => '123.456.789-12'];
-$request->post('/users', $header, $body);
-
-```
-
-##### 1.4.2 Utilizando uma string json
-
-```php
 $header = new Header();
 $header->add('Content-Type', 'application/json');
-//$header->add(Header::CONTENT_TYPE, Request::JSON);
+// $header->add('Content-Type', 'multipart/form-data');
+// $header->add('Content-Type', 'application/x-www-form-urlencoded');
 
-$body = '{"name":"Lorem Ipsum", "document":"123.456.789-12"}';
+// baseado no Content-Type, o objeto $body saberá como os dados devem ser enviados.
+$body = new Body();
+$body->set('name', 'Lorem Ipsum');
+$body->set('document', '123.456.789-12');
+
 $request->post('/users', $header, $body);
 
 ```

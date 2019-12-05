@@ -2,8 +2,9 @@
 
 namespace Astronphp\Http;
 
-use Astronphp\Http\Sanitizer;
+use Astronphp\Http\Body;
 use Astronphp\Http\Header;
+use Astronphp\Http\Sanitizer;
 use Astronphp\Collection\Collection;
 
 class Request {
@@ -16,6 +17,8 @@ class Request {
     const SERVER = 'SERVER';
     const FILES  = 'FILES';
 
+    const TEXT        = 'text/plain';
+    const HTML        = 'text/html';
     const JSON        = 'application/json';
     const FORM_DATA   = 'multipart/form-data';
     const URL_ENCODED = 'application/x-www-form-urlencoded';
@@ -87,33 +90,33 @@ class Request {
         return $this->request(static::GET, $url, $header);
     }
 
-    public function post(string $url, Header $header = null, $fields = null) {
-        return $this->request(static::POST, $url, $header, $fields);
+    public function post(string $url, Header $header = null, $body = null) {
+        return $this->request(static::POST, $url, $header, $body);
     }
 
-    public function put(string $url, Header $header = null, $fields = null) {
-        return $this->request(static::PUT, $url, $header, $fields);
+    public function put(string $url, Header $header = null, $body = null) {
+        return $this->request(static::PUT, $url, $header, $body);
     }
 
-    public function patch(string $url, Header $header = null, $fields = null) {
-        return $this->request(static::PATCH, $url, $header, $fields);
+    public function patch(string $url, Header $header = null, $body = null) {
+        return $this->request(static::PATCH, $url, $header, $body);
     }
 
-    public function delete(string $url, Header $header = null, $fields = null) {
-        return $this->request(static::DELETE, $url, $header, $fields);
+    public function delete(string $url, Header $header = null, $body = null) {
+        return $this->request(static::DELETE, $url, $header, $body);
     }
  
     // ==========================================================================
     // ============================= INTERNAL METHODS ===========================
     // ==========================================================================
 
-    private function request(string $method, string $url, Header $header = null, $fields = null) {
+    private function request(string $method, string $url, Header $header = null, Body $body = null) {
         return $this->setUrl($this->buildUrl($url))
             ->setCustomRequest($method)
             ->setHeader($header)
-            ->setFields($fields)
+            ->setFields($header, $body)
             ->setDefaultOptions()
-            ->send()
+            ->send($header)
             ->getResponse();
     }
     
@@ -127,8 +130,8 @@ class Request {
         return $this->baseUrl . $url . $query;
     }
     
-    private function send() {
-        $this->open()->exec()->close();
+    private function send(Header $header = null) {
+        $this->open()->exec($header)->close();
         return $this;
     }
 
@@ -137,7 +140,7 @@ class Request {
         return $this;
     }
 
-    private function exec() {
+    private function exec(Header $header = null) {
         curl_setopt_array($this->curl, $this->options);
 
         $response = curl_exec($this->curl);
@@ -147,8 +150,31 @@ class Request {
             throw new \Astronphp\Http\Exception\ResponseException(curl_error($this->curl), $code);
         }
         
-        $this->response = new Response($response, $info);
+        $this->response = new Response();
 
+        $accept = $header ? $header->get(Header::ACCEPT) : self::JSON;
+        switch ($accept) {
+            case self::JSON:
+                $decoded = json_decode($response, true);
+                $this->response->setData($decoded ?? []);
+                break;
+            case self::URL_ENCODED:
+                parse_str($response, $decoded);
+                $this->response->setData($decoded ?? []);
+                break;
+            case self::FORM_DATA:
+                $decoded = urldecode($response);
+                $this->response->setData($decoded ?? []);
+                break;
+            case self::HTML:
+                $this->response->set('html', $response);
+                break;
+            case self::TEXT:
+                $this->response->set('text', $response);
+                break;
+        }
+
+        $this->response->setInfo($info);
         return $this;
     }
 
@@ -178,8 +204,27 @@ class Request {
         return $this;
     }
 
-    public function setFields($fields = null): self {
-        $this->options[CURLOPT_POSTFIELDS] = $fields;
+    public function setFields(Header $header = null, Body $body = null): self {
+        $contentType = $header ? $header->get(Header::CONTENT_TYPE) : self::JSON;
+        if ($body) {
+            switch ($contentType) {
+                case self::JSON:
+                    $this->options[CURLOPT_POSTFIELDS] = $body->toJson();
+                    break;
+                case self::URL_ENCODED:
+                    $this->options[CURLOPT_POSTFIELDS] = $body->toUrlEncoded();
+                    break;
+                case self::FORM_DATA:
+                    $this->options[CURLOPT_POSTFIELDS] = $body->toFormData();
+                    break;
+                case self::HTML:
+                    $this->options[CURLOPT_POSTFIELDS] = $body->get('html');
+                    break;
+                case self::TEXT:
+                    $this->options[CURLOPT_POSTFIELDS] = $body->get('text');
+                    break;
+            }
+        }
         return $this;
     }
 
