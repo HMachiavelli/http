@@ -10,7 +10,7 @@
 
 ## Instalação
 
-``composer require astronphp/http``
+`composer require astronphp/http`
 
 ## Guia do Usuário
 
@@ -62,6 +62,7 @@ $body = ['name' => 'Lorem Ipsum', 'document' => '123.456.789-12'];
 $request->post('/users', $header, $body);
 
 ```
+
 ##### 1.4.2 Utilizando uma string json
 
 ```php
@@ -93,20 +94,20 @@ $request->get('/products/{department}');
 
 #### 1.6 Recebendo dados da resposta
 
-
 Vamos assumir que o exemplo abaixo retorna a seguinte estrutura:
 
 ```json
- {
-	"status":"success",
-	"data": {
-		"id": 1,
-		"name": "Astron",
-		"username": "astronphp",
-		"password": "@astronphp"
-	}
+{
+  "status": "success",
+  "data": {
+    "id": 1,
+    "name": "Astron",
+    "username": "astronphp",
+    "password": "@astronphp"
+  }
 }
 ```
+
 ```php
 $response = $request->get('/users/1');
 
