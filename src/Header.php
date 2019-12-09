@@ -170,6 +170,10 @@ class Header {
         header("{$key}: $value");
     }
 
+    public function get($key) {
+        return $this->content->get($key);
+    }
+
     public function add($key, $value) {
         $this->content->set($key, $value);
     }

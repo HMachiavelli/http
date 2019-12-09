@@ -10,7 +10,7 @@
 
 ## Instalação
 
-``composer require astronphp/http``
+`composer require astronphp/http`
 
 ## Guia do Usuário
 
@@ -50,26 +50,20 @@ $request->get('/users/1', $header);
 
 #### 1.4 Enviando um Corpo
 
-##### 1.4.1 Utilizando um array
-
 ```php
-$header = new Header();
-$header->add('Content-Type', 'application/x-www-form-urlencoded');
-//$header->add(Header::CONTENT_TYPE, Request::URL_ENCODED);
+use \Astronphp\Http\Header;
+use \Astronphp\Http\Body;
 
-// enviando o corpo como array
-$body = ['name' => 'Lorem Ipsum', 'document' => '123.456.789-12'];
-$request->post('/users', $header, $body);
-
-```
-##### 1.4.2 Utilizando uma string json
-
-```php
 $header = new Header();
 $header->add('Content-Type', 'application/json');
-//$header->add(Header::CONTENT_TYPE, Request::JSON);
+// $header->add('Content-Type', 'multipart/form-data');
+// $header->add('Content-Type', 'application/x-www-form-urlencoded');
 
-$body = '{"name":"Lorem Ipsum", "document":"123.456.789-12"}';
+// baseado no Content-Type, o objeto $body saberá como os dados devem ser enviados.
+$body = new Body();
+$body->set('name', 'Lorem Ipsum');
+$body->set('document', '123.456.789-12');
+
 $request->post('/users', $header, $body);
 
 ```
@@ -93,20 +87,20 @@ $request->get('/products/{department}');
 
 #### 1.6 Recebendo dados da resposta
 
-
 Vamos assumir que o exemplo abaixo retorna a seguinte estrutura:
 
 ```json
- {
-	"status":"success",
-	"data": {
-		"id": 1,
-		"name": "Astron",
-		"username": "astronphp",
-		"password": "@astronphp"
-	}
+{
+  "status": "success",
+  "data": {
+    "id": 1,
+    "name": "Astron",
+    "username": "astronphp",
+    "password": "@astronphp"
+  }
 }
 ```
+
 ```php
 $response = $request->get('/users/1');
 

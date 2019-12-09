@@ -66,26 +66,26 @@ class Response {
     const NETWORK_AUTHENTICATION_REQUIRED = 511;
 
     private $data;
-    private $info;
+    private $info = [];
 
-    public function __construct($data = [], array $info = []) {
-        $this->setData($data);
-        $this->setInfo($info);
+    public function __construct(array $data = []) {
+        $this->data = new \Astronphp\Collection\Collection($data);
     }
 
     public function json() {
         echo $this->data->toJson(); exit;
     }
 
+    public function set(string $key, $value) {
+        $this->data->set($key, $value);
+    }
+
     public function get(string $key = null) {
         return $key ? $this->data->get($key) : $this->data;
     }
 
-    public function setData($data = []) {
-        if (is_string($data)) {
-            $data = (array) json_decode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        }
-        $this->data = new \Astronphp\Collection\Collection((array) $data);
+    public function setData(array $data) {
+        $this->data = new \Astronphp\Collection\Collection($data);
     }
 
     public function setInfo(array $info) {
