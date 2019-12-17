@@ -238,6 +238,7 @@ class Request {
         $this->options[CURLOPT_FRESH_CONNECT]  = true;
         $this->options[CURLOPT_CONNECTTIMEOUT] = 10;
         $this->options[CURLOPT_TIMEOUT]        = 40;
+        $this->options[CURLOPT_ENCODING]       = '';
         return $this;
     }
 
